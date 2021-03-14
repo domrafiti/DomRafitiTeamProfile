@@ -3,7 +3,7 @@ const fs = require('fs');
 const Manager = require('./lib/manager');
 const Intern = require('./lib/intern');
 const Engineer = require('./lib/engineer');
-const { UV_FS_O_FILEMAP } = require('constants');
+//const { UV_FS_O_FILEMAP } = require('constants');
 let counter = 0;
 
 const managerQuestions = [
@@ -195,4 +195,5 @@ function stopHTML() {
     return;
 };
 
+//This is the function call that kicks off the entire program
 init();
