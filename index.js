@@ -24,7 +24,7 @@ function init() {
         .prompt(managerQuestions)
         .then(answer => {
             let teamManager = new Manager(answer);
-            console.log(teamManager);
+            teamManager.getOfficeID(answer);
             startHTML(teamManager);
         })
 };
@@ -64,8 +64,8 @@ function startHTML(teamManager) {
                         <h6 class="card-subtitle mb-2 text-muted">Manager</h6>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">Employee ID: ${teamManager.id}</li>
-                            <li class="list-group-item">Email: ${teamManager.email}</li>
-                            <li class="list-group-item">Office ID: ${teamManager.officeID}</li>
+                            <li class="list-group-item">Email: <a href="mailto:${teamManager.email}">${teamManager.email}</a></li>
+                            <li class="list-group-item">Office ID: ${teamManager.officeId}</li>
                         </ul>
                     </div>
                 </div>
@@ -83,6 +83,7 @@ function startHTML(teamManager) {
     askAgain();
 };
 
+//This function asks a set of questions that determines whether the user wants to add a new engineer, intern, or is finished buildling their team.
 function askAgain() {
     inquirer
         .prompt(startStopQuestions)
@@ -91,17 +92,15 @@ function askAgain() {
             const internQuest = "What is school they are attending?";
             if (answer.startStop == 'Add an intern') {
                 questEverything(internQuest, 'intern');
-                console.log('intern');
             } else if (answer.startStop == 'Add an engineer') {
                 questEverything(engineerQuest, 'engineer');
-                console.log('engineer');
             } else if (answer.startStop == 'Finish buildling the team') {
                 stopHTML();
-                console.log('Stop');
             }
         })
 };
 
+//This function asks a set of questions based on the role type selected in the askAgain function and then builds the new employee from the extended class, builds the HTML and calls the appendsHTML function and then calls the askAgain function.
 function questEverything(question, role) {
     const questions = [
         { type: 'input', message: "What is your name?", name: 'name', },
@@ -123,14 +122,12 @@ function questEverything(question, role) {
 <h6 class="card-subtitle mb-2 text-muted">${newIntern.role}</h6>
 <ul class="list-group list-group-flush">
     <li class="list-group-item">Employee ID: ${newIntern.id}</li>
-    <li class="list-group-item">Email: ${newIntern.email}</li>
+    <li class="list-group-item">Email: <a href="mailto:${newIntern.email}">${newIntern.email}</a></li>
     <li class="list-group-item">School: ${newIntern.school}</li>
 </ul>
 </div>
 </div>
 </div>`
-                console.log(newIntern, updateHTML);
-
                 appendHTML(updateHTML, 1);
                 askAgain();
 
@@ -145,23 +142,20 @@ function questEverything(question, role) {
 <h6 class="card-subtitle mb-2 text-muted">${newEngineer.role}</h6>
 <ul class="list-group list-group-flush">
     <li class="list-group-item">Employee ID: ${newEngineer.id}</li>
-    <li class="list-group-item">Email: ${newEngineer.email}</li>
-    <li class="list-group-item">GitHub URL: ${newEngineer.gitHub}</li>
+    <li class="list-group-item">Email: <a href="mailto:${newEngineer.email}">${newEngineer.email}</a></li>
+    <li class="list-group-item">GitHub URL: <a href="https://www.github.com/${newEngineer.gitHub}" target="_blank">${newEngineer.gitHub}</a></li>
 </ul>
 </div>
 </div>
 </div>`
-
-                console.log(newEngineer, updateHTML);
                 appendHTML(updateHTML, 1);
                 askAgain();
             }
         })
 };
 
+//This function takes in the HTML built from the questEverything function and adds the new information the HTML file. no functions are called from this function.
 function appendHTML(data, index) {
-    console.log(counter);
-
     if (counter === 3) {
         const endNewRow = `</div>
         <div class="row">
@@ -177,15 +171,14 @@ function appendHTML(data, index) {
         fs.appendFile('test.html', newRow, (err) =>
             err ? console.log(err) : console.log('Success!'));
     };
-    counter = counter + index;
 
-    console.log(counter);
+    counter = counter + index;
 
     fs.appendFile('test.html', data, (err) =>
         err ? console.log(err) : console.log('Success!'));
-
 };
 
+//This function is called when the user selects the option to finish building the team. once called it adds the last bit of HTML to our HTML file.
 function stopHTML() {
     let data = `</div>
         </div>
@@ -198,6 +191,7 @@ function stopHTML() {
         </html>`
     fs.appendFile('test.html', data, (err) =>
         err ? console.log(err) : console.log('Success!'));
+    return;
 };
 
 init();
