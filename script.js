@@ -1,63 +1,7 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 let team = [];
-let htmlTemplate = `<!doctype html>
-<html lang="en">
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-
-    <title>Team Builder</title>
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-light bg-light">
-            <div class="container-fluid">
-                <span class="navbar-brand mb-0 h1">
-                    <h1>My Team</h1>
-                </span>
-            </div>
-        </nav>
-    </header>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-3"></div>
-            <div class="col-sm-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">${this.name}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Manager</h6>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Employee ID: ${this.id}</li>
-                            <li class="list-group-item">Email: ${this.email}</li>
-                            <li class="list-group-item">Office ID: ${this.officeID}</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-3">
-                <h2> </h2>
-            </div>
-        </div>
-        <div id="start-here" class="row">
-            
-        </div>
-
-        <!-- Option 1: Bootstrap Bundle with Popper -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
-            crossorigin="anonymous"></script>
-        <script src="./script.js"></script>
-</body>
-</html>`
-
+const startHere = document.getElementById('start-here');
 
 const engineerQuestions = [
     { type: 'input', message: "What is the engineer's name?", name: 'engineerName', },
@@ -98,7 +42,6 @@ class Engineer {
         this.email = data.engineerEmail;
         this.gitHubUser = data.engineerGitId;
     };
-
 };
 
 class Intern {
@@ -123,7 +66,65 @@ function init() {
             console.log(team, team.length);
             askAgain();
 
-            fs.writeFile('test.html')
+            let htmlTemplate = `<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+    <title>Team Builder</title>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-light bg-light">
+            <div class="container-fluid">
+                <span class="navbar-brand mb-0 h1">
+                    <h1>My Team</h1>
+                </span>
+            </div>
+        </nav>
+    </header>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">${teamManager.name}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Manager</h6>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Employee ID: ${teamManager.id}</li>
+                            <li class="list-group-item">Email: ${teamManager.email}</li>
+                            <li class="list-group-item">Office ID: ${teamManager.officeID}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <h2> </h2>
+            </div>
+        </div>
+        <div id="start-here" class="row">
+            
+        </div>
+
+        <!-- Option 1: Bootstrap Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+            crossorigin="anonymous"></script>
+        <script src="script.js"></script>
+</body>
+</html>`
+
+            fs.writeFile('test.html', htmlTemplate, (err) =>
+                err ? console.log(err) : console.log('Success!'))
         });
 };
 
@@ -170,10 +171,24 @@ function askAgain() {
 function buildTheSite() {
 
     if (inRange(team.length, 1, 3)) {
+        let i = 0;
         console.log('yay 1-3');
 
 
-
+        startHere.innerHTML += `<div class="col-sm-4">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">${team.i.name}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">${team.i}</h6>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">An item</li>
+                <li class="list-group-item">A second item</li>
+                <li class="list-group-item">A third item</li>
+            </ul>
+        </div>
+    </div>
+`
+        i++;
 
 
     }
