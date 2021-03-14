@@ -1,5 +1,8 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
+const Manager = require('./lib/manager');
+const Intern = require('./lib/intern');
+const Engineer = require('./lib/engineer');
 const { UV_FS_O_FILEMAP } = require('constants');
 let counter = 0;
 
@@ -9,62 +12,12 @@ const managerQuestions = [
     { type: 'input', message: "What is your email address?", name: 'email', },
     { type: 'input', message: "What is your office number?", name: 'special', },
 ];
-// const questions = [
-//     { type: 'input', message: "What is your name?", name: 'name', },
-//     { type: 'input', message: "What is your employee ID?", name: 'id', },
-//     { type: 'input', message: "What is your email address?", name: 'email', },
-//     { type: 'input', message: `${}`, name: 'special', },
-// ];
 
 const startStopQuestions = [
     { type: 'list', message: 'Choose an option:', choices: ['Add an engineer', 'Add an intern', 'Finish buildling the team'], name: 'startStop', },
 ];
 
-class Employee {
-    constructor(data) {
-        this.name = data.name;
-        this.id = data.id;
-        this.email = data.email;
-    };
 
-    getName() {
-        return this.name;
-    };
-    getID() {
-        return this.id;
-    };
-    getEmail() {
-        return this.email;
-    };
-
-}
-
-class Manager extends Employee {
-    constructor(data) {
-        super(data);
-        this.officeId = data.special;
-    }
-}
-
-class Intern extends Employee {
-    constructor(data) {
-        super(data);
-        this.school = data.special;
-    }
-    getRole() {
-        return this.role = 'Intern';
-    }
-}
-
-class Engineer extends Employee {
-    constructor(data) {
-        super(data);
-        this.gitHub = data.special;
-    }
-    getRole() {
-        return this.role = 'Engineer';
-    }
-}
 //this function initalizes the application by collecting the managers information, creates a new Team Manager from the manager class and then calls the startHTML function to write the initial data. this function will be called once.
 function init() {
     inquirer
@@ -123,6 +76,7 @@ function startHTML(teamManager) {
                 <h2> </h2>
             </div>
         </div>`;
+
     fs.writeFile('test.html', htmlTemplate, (err) =>
         err ? console.log(err) : console.log('Success!'));
 
@@ -233,9 +187,7 @@ function appendHTML(data, index) {
 };
 
 function stopHTML() {
-
-    if (counter < 3 && counter !== 0) {
-        let data = `</div>
+    let data = `</div>
         </div>
         <!-- Option 1: Bootstrap Bundle with Popper -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
@@ -244,20 +196,8 @@ function stopHTML() {
             <script src="script.js"></script>
         </body>
         </html>`
-        fs.appendFile('test.html', data, (err) =>
-            err ? console.log(err) : console.log('Success!'));
-    } if (counter === 3) {
-        let data = `</div>
-        <!-- Option 1: Bootstrap Bundle with Popper -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
-            crossorigin="anonymous"></script>
-            <script src="script.js"></script>
-        </body>
-        </html>`
-        fs.appendFile('test.html', data, (err) =>
-            err ? console.log(err) : console.log('Success!'));
-    };
-}
+    fs.appendFile('test.html', data, (err) =>
+        err ? console.log(err) : console.log('Success!'));
+};
 
 init();
