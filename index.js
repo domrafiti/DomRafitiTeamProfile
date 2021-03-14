@@ -25,6 +25,7 @@ function init() {
         .then(answer => {
             let teamManager = new Manager(answer);
             teamManager.getOfficeID(answer);
+            console.log(teamManager, typeof teamManager);
             startHTML(teamManager);
         })
 };

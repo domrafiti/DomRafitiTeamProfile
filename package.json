@@ -4,7 +4,7 @@
   "description": "## Your Task",
   "main": "script.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,7 @@
   "homepage": "https://github.com/domrafiti/DomRafitiTeamProfile#readme",
   "dependencies": {
     "fs": "0.0.1-security",
-    "inquirer": "^8.0.0"
+    "inquirer": "^8.0.0",
+    "jest": "^26.6.3"
   }
 }
